@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Counter</title>
+  </head>
+  <body>
+    <h1 id="counter">0</h1>
+    <script>
+      const h1Tag = document.getElementById("counter");
+      let counter = 0;
+
+      setInterval(function () {
+        counter++;
+        let temp = counter;
+        let hours = Math.floor(temp / 3600);
+        temp -= hours * 3600;
+        let minutes = Math.floor(temp / 60);
+        temp -= minutes * 60;
+        let seconds = temp % 60;
+        hours = hours === 0 ? "00" : hours < 10 ? "0" + hours : hours;
+        minutes = minutes === 0 ? "00" : minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds === 0 ? "00" : seconds < 10 ? "0" + seconds : seconds;
+        h1Tag.innerHTML = `${hours} hours : ${minutes} minutes : ${seconds} seconds`;
+      }, 1000);
+    </script>
+  </body>
+</html>
