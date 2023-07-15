@@ -43,4 +43,4 @@ function calculateTime() {
     });
 }
 
-console.log(calculateTime().then((time) => console.log(time)));
+calculateTime().then((time) => console.log(time));
