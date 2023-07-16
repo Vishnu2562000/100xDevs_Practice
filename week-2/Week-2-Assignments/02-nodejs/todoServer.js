@@ -6,16 +6,18 @@ const app = express();
 
 app.use(bodyParser.json());
 
-const todosFilePath = "todos.json";
+const todosFilePath =
+  "/home/vishnu/Desktop/100xDevs_Practice/week-2/Week-2-Assignments/02-nodejs/todos.json";
 
 // Helper function to read todos from file
 const readTodosFromFile = () => {
   try {
     const todosData = fs.readFileSync(todosFilePath, "utf-8");
+    console.log(todosData);
     return JSON.parse(todosData);
   } catch (err) {
     // If the file doesn't exist or there's an error reading it, return an empty array
-    return [];
+    throw err;
   }
 };
 
@@ -97,3 +99,4 @@ app.use((req, res) => {
 });
 
 module.exports = app;
+// app.listen(3000);
