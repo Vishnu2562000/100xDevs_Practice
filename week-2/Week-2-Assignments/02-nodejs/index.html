@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TODO APP</title>
+</head>
+<body>
+    <script>
+
+        function deleteButton(id)
+        {
+            fetch(`http://localhost:3000/todos/${id}`,{
+                method: "DELETE"
+            }).then((response) => console.log(response));
+            
+            let todosHandle = document.getElementById("mainArea");
+            let todoToRemove = document.getElementById(id);
+            todosHandle.removeChild(todoToRemove);
+        }
+        function displayData(data)
+        {
+            console.log(data); // You can display the data in the console
+            let todosHandle = document.getElementById("mainArea");
+            // todosHandle.innerHTML = JSON.stringify(data);
+            data.map((todo) => {
+                let todoHandle = document.createElement("div");
+
+                let titleHandle = document.createElement("span");
+                let descriptionHandle = document.createElement("span")
+                let deleteButtonHandle = document.createElement("button");
+
+                titleHandle.innerHTML = todo.title;
+                descriptionHandle.innerHTML = todo.description;
+                deleteButtonHandle.innerHTML = "Delete"
+
+                deleteButtonHandle.setAttribute("onclick","deleteButton(" + todo.id + ")")
+                
+                todoHandle.setAttribute("id",todo.id)
+                todoHandle.appendChild(titleHandle);
+                todoHandle.appendChild(descriptionHandle);
+                todoHandle.appendChild(deleteButtonHandle);
+
+                todosHandle.appendChild(todoHandle);
+            })
+                
+        }
+
+        function getData() {
+            //GET method
+            fetch("http://localhost:3000/todos",{method: "GET"}).then((response) => response.json()).then((data) => displayData(data))
+        }
+
+        function appendNewToDo(todo)
+        {
+            console.log(todo); // You can display the data in the console
+            let todosHandle = document.getElementById("mainArea");
+
+            let todoHandle = document.createElement("div");
+
+            let titleHandle = document.createElement("span");
+            let descriptionHandle = document.createElement("span")
+            let deleteButtonHandle = document.createElement("button");
+
+            titleHandle.innerHTML = todo.title;
+            descriptionHandle.innerHTML = todo.description;
+            deleteButtonHandle.innerHTML = "Delete"
+                
+            todoHandle.appendChild(titleHandle);
+            todoHandle.appendChild(descriptionHandle);
+            todoHandle.appendChild(deleteButtonHandle);
+
+            todosHandle.appendChild(todoHandle);
+        }
+        function onPress() {
+            let title = document.getElementById("title").value;
+            let description = document.getElementById("description").value;   
+            console.log(title,description);
+
+            //POST method
+            fetch("http://localhost:3000/todos",{method: "POST",body: JSON.stringify({
+                title: title,
+                description: description
+            },
+            ),
+            headers: {
+                "Content-type": "application/json"
+            }
+        }).then((response) => response.json()).then((data) => appendNewToDo(data))
+        }
+        getData();
+    </script>
+    <div>
+        <h3>Title : </h3>
+        <input type="text" id="title"></input>
+    </div>
+    <br>
+    <div>
+        <h3>Description : </h3>
+        <input type="text" id="description"></input>
+    </div>
+    <br>
+    <button onclick="onPress()">Send Todo</button>
+    <div id="mainArea"></div>
+
+</body>
+</html>

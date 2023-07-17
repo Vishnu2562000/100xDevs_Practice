@@ -1,13 +1,16 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const fs = require("fs");
-
+const path = require("path");
 const app = express();
 
-app.use(bodyParser.json());
+//for avoiding cors error, we use cors library. Should not be used in production
+const cors = require("cors");
 
-const todosFilePath =
-  "/home/vishnu/Desktop/100xDevs_Practice/week-2/Week-2-Assignments/02-nodejs/todos.json";
+app.use(bodyParser.json());
+app.use(cors());
+
+const todosFilePath = path.join(__dirname, "todos.json");
 
 // Helper function to read todos from file
 const readTodosFromFile = () => {
@@ -93,10 +96,17 @@ app.delete("/todos/:id", (req, res) => {
   }
 });
 
+//Sending our frontend to localhost which is acting as backend.
+//If frontend and backend are from same url(here it is localhost), then cors error will be gone
+
+// app.get("/", (req, res) => {
+//   res.sendFile(path.join(__dirname, "index.html"));
+// });
+
 // For all remaining routes, send 404
 app.use((req, res) => {
   res.status(404).send();
 });
 
-module.exports = app;
-// app.listen(3000);
+// module.exports = app;
+app.listen(3000);
