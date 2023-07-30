@@ -2,8 +2,9 @@ const express = require("express");
 const app = express();
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
-
+const cors = require("cors");
 app.use(express.json());
+app.use(cors());
 
 let ADMINS = [];
 let USERS = [];
@@ -133,6 +134,12 @@ app.put("/admin/courses/:courseId", authenticateJwtForAdmin, (req, res) => {
 app.get("/admin/courses", authenticateJwtForAdmin, (req, res) => {
   // logic to get all courses
   res.json({ courses: COURSES });
+});
+
+app.get("/admin/me", authenticateJwtForAdmin, (req, res) => {
+  res.json({
+    username: req.user.username,
+  });
 });
 
 // User routes
