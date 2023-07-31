@@ -87,7 +87,7 @@ app.put("/admin/courses/:courseId", authenticateJwt, (req, res) => {
   if (course) {
     Object.assign(course, req.body);
     fs.writeFileSync("courses.json", JSON.stringify(COURSES));
-    res.json({ message: "Course updated successfully" });
+    res.json({ message: "Course updated successfully", course });
   } else {
     res.status(404).json({ message: "Course not found" });
   }
@@ -95,6 +95,15 @@ app.put("/admin/courses/:courseId", authenticateJwt, (req, res) => {
 
 app.get("/admin/courses", authenticateJwt, (req, res) => {
   res.json({ courses: COURSES });
+});
+
+app.get("/admin/courses/:courseId", authenticateJwt, (req, res) => {
+  const course = COURSES.find((c) => c.id === parseInt(req.params.courseId));
+  if (course) {
+    res.json({ course: course });
+  } else {
+    res.status(404).json({ message: "Course not found" });
+  }
 });
 
 app.get("/admin/me", authenticateJwt, (req, res) => {
