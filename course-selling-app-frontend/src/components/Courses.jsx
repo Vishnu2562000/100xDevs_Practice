@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Grid } from "@mui/material";
-import Course from "./Course";
+import CourseCard from "./CourseCard";
 
 const Courses = () => {
   const [courses, setCourses] = useState([]);
@@ -23,18 +23,15 @@ const Courses = () => {
   }, []);
 
   return (
-    <Grid container spacing={2}>
-      {courses.map((course) => (
-        <Grid key={course.id} item xs={12} sm={6} md={4}>
-          <Course
-            imageLink={course.imageLink}
-            title={course.title}
-            description={course.description}
-            price={course.price}
-          />
-        </Grid>
-      ))}
-    </Grid>
+    <div style={{ padding: "20px" }}>
+      <Grid container spacing={{ xs: 2, sm: 3, md: 4, lg: 4 }}>
+        {courses.map((course) => (
+          <Grid key={course.id} item xs={12} sm={6} md={4} lg={3}>
+            <CourseCard course={course} />
+          </Grid>
+        ))}
+      </Grid>
+    </div>
   );
 };
 

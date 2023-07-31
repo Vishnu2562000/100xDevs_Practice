@@ -3,6 +3,17 @@ import Signin from "./Signin";
 import Appbar from "./Appbar";
 import AddCourse from "./AddCourse";
 import Courses from "./Courses";
-import Course from "./Course";
+import CourseCard from "./CourseCard";
+import CoursePage from "./CoursePage";
+import UpdateCourse from "./UpdateCourse";
 
-export { SignUp, Signin, Appbar, AddCourse, Courses, Course };
+export {
+  SignUp,
+  Signin,
+  Appbar,
+  AddCourse,
+  Courses,
+  CourseCard,
+  CoursePage,
+  UpdateCourse,
+};

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardMedia,
@@ -45,15 +45,35 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.secondary.dark,
     },
   },
+  noImage: {
+    backgroundColor: "#f0f0f0", // Set the background color for no image
+  },
 }));
 
-const Course = ({ imageLink, title, description, price }) => {
+const CourseCard = ({ course }) => {
   const classes = useStyles();
+  const { imageLink, title, description, price } = course;
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  const handleImageLoaded = () => {
+    setImageLoaded(true);
+  };
+
+  console.log("Hello from Course Card!");
 
   return (
     <Card className={classes.card}>
-      <CardMedia className={classes.media} image={imageLink} title={title} />
-      <CardContent>
+      <CardMedia
+        className={`${classes.media} ${!imageLink && classes.noImage}`}
+        image={imageLink}
+        title={title}
+        component="img"
+        onLoad={handleImageLoaded}
+        style={{ display: imageLoaded ? "inherit" : "none" }}
+      />
+      {!imageLoaded && <div style={{ height: 220 }} />}{" "}
+      {/* Blank placeholder */}
+      <CardContent style={{ visibility: imageLoaded ? "visible" : "hidden" }}>
         <Typography variant="h5" component="h2" className={classes.title}>
           {title}
         </Typography>
@@ -75,4 +95,4 @@ const Course = ({ imageLink, title, description, price }) => {
   );
 };
 
-export default Course;
+export default CourseCard;
